@@ -1,0 +1,207 @@
+# fraud_detection.py
+# Credit Card Fraud Detection System
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import (accuracy_score, confusion_matrix, 
+                            classification_report, roc_auc_score)
+from sklearn.preprocessing import StandardScaler
+from imblearn.over_sampling import SMOTE
+import joblib
+import logging
+from pathlib import Path
+
+# Configure logging
+logging.basicConfig(level=logging.INFO,
+                   format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+
+class FraudDetector:
+    def __init__(self):
+        self.model = None
+        self.scaler = StandardScaler()
+        self.features = None
+        self.model_path = Path('models/fraud_detection_model.pkl')
+        self.scaler_path = Path('models/scaler.pkl')
+        
+    def load_data(self, file_path='data/creditcard.csv'):
+        """Load the dataset from specified path."""
+        try:
+            logger.info(f"Loading data from {file_path}")
+            data = pd.read_csv(file_path)
+            logger.info("Data loaded successfully")
+            return data
+        except Exception as e:
+            logger.error(f"Error loading data: {e}")
+            raise
+            
+    def analyze_data(self, data):
+        """Perform exploratory data analysis."""
+        logger.info("Performing data analysis")
+        
+        # Basic statistics
+        logger.info(f"\nData shape: {data.shape}")
+        logger.info(f"\nClass distribution:\n{data['Class'].value_counts()}")
+        logger.info(f"\nMissing values:\n{data.isnull().sum()}")
+        
+        # Visualization
+        plt.figure(figsize=(10, 8))
+        sns.countplot(x='Class', data=data)
+        plt.title('Transaction Class Distribution')
+        plt.savefig('reports/class_distribution.png')
+        plt.close()
+        
+        return data
+    
+    def preprocess_data(self, data):
+        """Preprocess the data for modeling."""
+        logger.info("Preprocessing data")
+        
+        # Scale numerical features
+        data['normalized_amount'] = self.scaler.fit_transform(
+            data['Amount'].values.reshape(-1, 1))
+        data['normalized_time'] = self.scaler.fit_transform(
+            data['Time'].values.reshape(-1, 1))
+        
+        # Drop original columns
+        data = data.drop(['Time', 'Amount'], axis=1)
+        
+        # Set features and target
+        self.features = data.drop('Class', axis=1).columns.tolist()
+        X = data[self.features]
+        y = data['Class']
+        
+        return X, y
+    
+    def split_data(self, X, y, test_size=0.2):
+        """Split data into training and test sets."""
+        logger.info("Splitting data into train/test sets")
+        return train_test_split(
+            X, y, 
+            test_size=test_size, 
+            random_state=42, 
+            stratify=y
+        )
+    
+    def balance_data(self, X_train, y_train):
+        """Balance the dataset using SMOTE."""
+        logger.info("Balancing dataset using SMOTE")
+        sm = SMOTE(random_state=42)
+        X_res, y_res = sm.fit_resample(X_train, y_train)
+        return X_res, y_res
+    
+    def train_model(self, X_train, y_train):
+        """Train the fraud detection model."""
+        logger.info("Training Logistic Regression model")
+        self.model = LogisticRegression(
+            max_iter=1000,
+            class_weight='balanced',
+            random_state=42
+        )
+        self.model.fit(X_train, y_train)
+        return self.model
+    
+    def evaluate_model(self, model, X_test, y_test):
+        """Evaluate model performance."""
+        logger.info("Evaluating model performance")
+        y_pred = model.predict(X_test)
+        
+        # Metrics
+        accuracy = accuracy_score(y_test, y_pred)
+        conf_matrix = confusion_matrix(y_test, y_pred)
+        class_report = classification_report(y_test, y_pred)
+        roc_auc = roc_auc_score(y_test, model.predict_proba(X_test)[:, 1])
+        
+        logger.info(f"\nAccuracy: {accuracy:.4f}")
+        logger.info(f"\nROC AUC Score: {roc_auc:.4f}")
+        logger.info(f"\nConfusion Matrix:\n{conf_matrix}")
+        logger.info(f"\nClassification Report:\n{class_report}")
+        
+        # Save evaluation metrics
+        metrics = {
+            'accuracy': accuracy,
+            'roc_auc': roc_auc,
+            'confusion_matrix': conf_matrix.tolist()
+        }
+        return metrics
+    
+    def save_model(self):
+        """Save the trained model and scaler."""
+        logger.info("Saving model and scaler")
+        self.model_path.parent.mkdir(exist_ok=True)
+        joblib.dump(self.model, self.model_path)
+        joblib.dump(self.scaler, self.scaler_path)
+    
+    def load_saved_model(self):
+        """Load the saved model and scaler."""
+        logger.info("Loading saved model")
+        self.model = joblib.load(self.model_path)
+        self.scaler = joblib.load(self.scaler_path)
+        return self.model, self.scaler
+    
+    def predict(self, transaction_data):
+        """Make predictions on new transaction data."""
+        if not self.model:
+            self.load_saved_model()
+        
+        # Preprocess the input data
+        transaction_data = transaction_data.copy()
+        transaction_data['normalized_amount'] = self.scaler.transform(
+            transaction_data['Amount'].values.reshape(-1, 1))
+        transaction_data['normalized_time'] = self.scaler.transform(
+            transaction_data['Time'].values.reshape(-1, 1))
+        transaction_data = transaction_data.drop(['Time', 'Amount'], axis=1)
+        
+        # Ensure all features are present
+        for col in self.features:
+            if col not in transaction_data.columns:
+                transaction_data[col] = 0
+        
+        # Reorder columns to match training
+        transaction_data = transaction_data[self.features]
+        
+        # Make prediction
+        prediction = self.model.predict(transaction_data)
+        probability = self.model.predict_proba(transaction_data)[:, 1]
+        
+        return prediction, probability
+
+def main():
+    try:
+        # Initialize fraud detector
+        detector = FraudDetector()
+        
+        # Load and analyze data
+        data = detector.load_data()
+        detector.analyze_data(data)
+        
+        # Preprocess data
+        X, y = detector.preprocess_data(data)
+        
+        # Split data
+        X_train, X_test, y_train, y_test = detector.split_data(X, y)
+        
+        # Balance training data
+        X_res, y_res = detector.balance_data(X_train, y_train)
+        
+        # Train model
+        model = detector.train_model(X_res, y_res)
+        
+        # Evaluate model
+        metrics = detector.evaluate_model(model, X_test, y_test)
+        
+        # Save model
+        detector.save_model()
+        
+        logger.info("Fraud detection pipeline completed successfully")
+        
+    except Exception as e:
+        logger.error(f"Error in fraud detection pipeline: {e}")
+        raise
+
+if __name__ == "__main__":
+    main()
