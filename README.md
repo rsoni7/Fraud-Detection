@@ -3,7 +3,6 @@
 
 # Credit Card Fraud Detection System
 
-![Class Distribution](reports/class_distribution.png)
 
 ## Overview
 A machine learning system to detect fraudulent credit card transactions using Logistic Regression with SMOTE for handling class imbalance.
