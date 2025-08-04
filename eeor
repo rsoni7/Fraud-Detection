@@ -1,70 +1,70 @@
+Compiled with problems:
+×
 ERROR
-src/app/components/green-investment/green-investment.component.html:38:52 - error NG8002: Can't bind to 'ngModel' since it isn't a known property of 'input'.
+Module not found: Error: Can't resolve 'C:/Users/951531/Downloads/vibe-banking-lab-master/vibe-banking-lab-master/src/app/components/green-investment/green-investment.component.css?ngResource' in 'C:\Users\951531\Downloads\vibe-banking-lab-master\vibe-banking-lab-master'
+ERROR
+src/app/components/green-investment/green-investment.component.html:45:11 - error NG8002: Can't bind to 'ngModel' since it isn't a known property of 'input'.
 
-38         <input type="number" id="investmentAmount" [(ngModel)]="amount" placeholder="Enter amount">
-                                                      ~~~~~~~~~~~~~~~~~~~~
+45           [(ngModel)]="investmentAmount"
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  src/app/components/green-investment/green-investment.component.ts:6:16
-    6   templateUrl: './green-investment.component.html',
+  src/app/components/green-investment/green-investment.component.ts:5:16
+    5   templateUrl: './green-investment.component.html',
                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Error occurs in the template of component GreenInvestmentComponent.
 ERROR
-src/app/components/green-investment/green-investment.component.html:38:65 - error TS2322: Type 'Event' is not assignable to type 'number'.
+src/app/components/green-investment/green-investment.component.html:45:24 - error TS2322: Type 'Event' is not assignable to type 'number'.
 
-38         <input type="number" id="investmentAmount" [(ngModel)]="amount" placeholder="Enter amount">
-                                                                   ~~~~~~~~~~~~~~
+45           [(ngModel)]="investmentAmount"
+                          ~~~~~~~~~~~~~~~~~
+46           placeholder="Enter amount"
+   ~~~~~~
 
-  src/app/components/green-investment/green-investment.component.ts:6:16
-    6   templateUrl: './green-investment.component.html',
+  src/app/components/green-investment/green-investment.component.ts:5:16
+    5   templateUrl: './green-investment.component.html',
                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Error occurs in the template of component GreenInvestmentComponent.
 ERROR
-src/app/components/green-investment/green-investment.component.html:43:51 - error NG8002: Can't bind to 'ngModel' since it isn't a known property of 'input'.
+src/app/components/green-investment/green-investment.component.html:56:11 - error NG8002: Can't bind to 'ngModel' since it isn't a known property of 'input'.
 
-43         <input type="number" id="investmentYears" [(ngModel)]="years" placeholder="Enter years">
-                                                     ~~~~~~~~~~~~~~~~~~~
+56           [(ngModel)]="investmentYears"
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  src/app/components/green-investment/green-investment.component.ts:6:16
-    6   templateUrl: './green-investment.component.html',
+  src/app/components/green-investment/green-investment.component.ts:5:16
+    5   templateUrl: './green-investment.component.html',
                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Error occurs in the template of component GreenInvestmentComponent.
 ERROR
-src/app/components/green-investment/green-investment.component.html:43:64 - error TS2322: Type 'Event' is not assignable to type 'number'.
+src/app/components/green-investment/green-investment.component.html:56:24 - error TS2322: Type 'Event' is not assignable to type 'number'.
 
-43         <input type="number" id="investmentYears" [(ngModel)]="years" placeholder="Enter years">
-                                                                  ~~~~~~~~~~~~~
+56           [(ngModel)]="investmentYears"
+                          ~~~~~~~~~~~~~~~~
+57           placeholder="Enter years"
+   ~~~~~~
 
-  src/app/components/green-investment/green-investment.component.ts:6:16
-    6   templateUrl: './green-investment.component.html',
+  src/app/components/green-investment/green-investment.component.ts:5:16
+    5   templateUrl: './green-investment.component.html',
                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Error occurs in the template of component GreenInvestmentComponent.
 ERROR
-src/app/components/green-investment/green-investment.component.html:52:55 - error NG8004: No pipe found with name 'number'.
+src/app/components/green-investment/green-investment.component.html:68:55 - error NG8004: No pipe found with name 'currency'.
 
-52           <span class="result-value">${{futureValue | number:'1.2-2'}}</span>
-                                                         ~~~~~~
+68           <span class="result-value">{{ futureValue | currency }}</span>
+                                                         ~~~~~~~~
 
-  src/app/components/green-investment/green-investment.component.ts:6:16
-    6   templateUrl: './green-investment.component.html',
+  src/app/components/green-investment/green-investment.component.ts:5:16
+    5   templateUrl: './green-investment.component.html',
                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Error occurs in the template of component GreenInvestmentComponent.
 ERROR
-src/app/components/green-investment/green-investment.component.html:55:84 - error NG8004: No pipe found with name 'number'.
+src/app/components/green-investment/green-investment.component.html:72:59 - error NG8004: No pipe found with name 'currency'.
 
-55           Potential profit: <span class="result-value">${{(futureValue - amount) | number:'1.2-2'}}</span>
-                                                                                      ~~~~~~
+72           <span class="result-value">{{ potentialProfit | currency }}</span>
+                                                             ~~~~~~~~
 
-  src/app/components/green-investment/green-investment.component.ts:6:16
-    6   templateUrl: './green-investment.component.html',
+  src/app/components/green-investment/green-investment.component.ts:5:16
+    5   templateUrl: './green-investment.component.html',
                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Error occurs in the template of component GreenInvestmentComponent.
 ERROR
-src/app/components/green-investment/green-investment.component.html:58:93 - error NG8004: No pipe found with name 'number'.
-
-58           Annualized return: <span class="result-value">{{selectedInvestment?.expectedROI | number:'1.2-2'}}%</span>
-                                                                                               ~~~~~~
-
-  src/app/components/green-investment/green-investment.component.ts:6:16
-    6   templateUrl: './green-investment.component.html',
-                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Error occurs in the template of component GreenInvestmentComponent.
+The loader "C:/Users/951531/Downloads/vibe-banking-lab-master/vibe-banking-lab-master/src/app/components/green-investment/green-investment.component.css" didn't return a string.
