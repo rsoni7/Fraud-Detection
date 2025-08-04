@@ -1,60 +1,454 @@
-<div class="green-investment">
-  <div class="container">
-    <section class="portfolio-intro">
-      <h2>Discover Eco-Friendly Investment Opportunities</h2>
-      <p>Browse our selection of carefully curated green investments that combine financial returns with positive environmental impact.</p>
-    </section>
-    
-    <h2>Available Green Investment Options</h2>
-    <div class="investment-options">
-      <div *ngFor="let investment of investments; let i = index" 
-           class="investment-card" 
-           (click)="selectInvestment(i)">
-        <div class="card-header">{{investment.type}}</div>
-        <div class="card-body">
-          <h3>{{investment.companyName}}</h3>
-          <div class="investment-meta">
-            <span class="roi-badge">ROI: {{investment.expectedROI}}%</span>
-            <span class="risk-badge">Risk: {{investment.riskLevel}}/5</span>
-          </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Green Investment Portfolio</title>
+    <style>
+        /* Modern Green Color Scheme */
+        :root {
+            --green-dark: #1B5E20;
+            --green-primary: #2E7D32;
+            --green-light: #81C784;
+            --green-accent: #388E3C;
+            --green-bg: #E8F5E9;
+            --text-dark: #263238;
+            --text-light: #f5f5f5;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--green-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding: 0;
+        }
+        
+        header {
+            background-color: var(--green-primary);
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--green-light);
+        }
+        
+        .portfolio-intro {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            border-left: 4px solid var(--green-accent);
+        }
+        
+        .investment-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .investment-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .investment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+            border-color: var(--green-accent);
+        }
+        
+        .card-header {
+            background-color: var(--green-primary);
+            color: white;
+            padding: 1rem;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        .card-body h3 {
+            color: var(--green-dark);
+            margin-bottom: 0.5rem;
+        }
+        
+        .card-footer {
+            background-color: var(--green-bg);
+            padding: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+        }
+        
+        .roi-badge {
+            display: inline-block;
+            background-color: var(--green-accent);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-right: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .risk-badge {
+            display: inline-block;
+            background-color: #ECEFF1;
+            color: var(--text-dark);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .calculator-container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 2rem;
+            display: none;
+            border-left: 4px solid var(--green-accent);
+        }
+        
+        .calculator-container.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--green-dark);
+        }
+        
+        input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #B0BEC5;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: var(--green-accent);
+        }
+        
+        button {
+            background-color: var(--green-primary);
+            color: white;
+            border: none;
+            padding: 1rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        button:hover {
+            background-color: var(--green-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .results {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: var(--green-bg);
+            border-radius: 8px;
+            display: none;
+            border-left: 4px solid var(--green-accent);
+        }
+        
+        .results.active {
+            display: block;
+        }
+        
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #CFD8DC;
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .result-value {
+            font-weight: bold;
+            color: var(--green-primary);
+        }
+        
+        @media (max-width: 768px) {
+            .investment-options {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🌱 Green Investment Portfolio</h1>
+            <p class="subtitle">Invest in a sustainable future</p>
         </div>
-        <div class="card-footer">{{investment.description}}</div>
-      </div>
+    </header>
+    
+    <div class="container">
+        <section class="portfolio-intro">
+            <h2>Discover Eco-Friendly Investment Opportunities</h2>
+            <p>Browse our selection of carefully curated green investments that combine financial returns with positive environmental impact.</p>
+        </section>
+        
+        <h2>Available Green Investment Options</h2>
+        <div class="investment-options" id="investmentOptions"></div>
+        
+        <div class="calculator-container" id="calculatorContainer">
+            <h2 id="investmentTitle">Investment Calculator</h2>
+            <p id="investmentDescription"></p>
+            
+            <div class="form-group">
+                <label for="investmentAmount">Initial Investment Amount ($)</label>
+                <input type="number" id="investmentAmount" placeholder="Enter amount" min="0">
+            </div>
+            
+            <div class="form-group">
+                <label for="investmentYears">Investment Duration (years)</label>
+                <input type="number" id="investmentYears" placeholder="Enter years" min="1">
+            </div>
+            
+            <button id="calculateBtn">Calculate Projection</button>
+            
+            <div class="results" id="results">
+                <h3>Projection Results</h3>
+                <div class="result-item">
+                    <span>Projected value after <span id="yearsSpan">0</span> years:</span>
+                    <span id="futureValue" class="result-value">$0.00</span>
+                </div>
+                <div class="result-item">
+                    <span>Potential profit:</span>
+                    <span id="potentialProfit" class="result-value">$0.00</span>
+                </div>
+                <div class="result-item">
+                    <span>Annualized return:</span>
+                    <span id="annualReturn" class="result-value">0%</span>
+                </div>
+            </div>
+        </div>
     </div>
     
-    <div class="calculator-container" *ngIf="selectedInvestment">
-      <h2>{{selectedInvestment.companyName}} Investment Calculator</h2>
-      <p>{{selectedInvestment.description}}</p>
-      
-      <div class="form-group">
-        <label for="investmentAmount">Initial Investment Amount ($)</label>
-        <input type="number" id="investmentAmount" 
-               [(ngModel)]="amount" name="amount"
-               placeholder="Enter amount">
-      </div>
-      
-      <div class="form-group">
-        <label for="investmentYears">Investment Duration (years)</label>
-        <input type="number" id="investmentYears" 
-               [(ngModel)]="years" name="years"
-               placeholder="Enter years">
-      </div>
-      
-      <button (click)="calculate()">Calculate Projection</button>
-      
-      <div class="results" *ngIf="showResults">
-        <h3>Projection Results</h3>
-        <div class="result-item">
-          Projected value after <span class="result-value">{{years}}</span> years: 
-          <span class="result-value">${{futureValue.toFixed(2)}}</span>
-        </div>
-        <div class="result-item">
-          Potential profit: <span class="result-value">${{(futureValue - amount).toFixed(2)}}</span>
-        </div>
-        <div class="result-item">
-          Annualized return: <span class="result-value">{{selectedInvestment.expectedROI.toFixed(2)}}%</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+    <script>
+        // Green investment data
+        const greenInvestments = [
+            {
+                type: "Solar Energy Companies",
+                companyName: "SunPower Corporation",
+                expectedROI: 8.5,
+                riskLevel: 3,
+                description: "Invest in photovoltaic cell manufacturers or solar farm operators"
+            },
+            {
+                type: "Wind Power",
+                companyName: "Vestas Wind Systems",
+                expectedROI: 7.2,
+                riskLevel: 2,
+                description: "Invest in wind turbine manufacturers or wind farm projects"
+            },
+            {
+                type: "Electric Vehicles",
+                companyName: "Tesla",
+                expectedROI: 12.5,
+                riskLevel: 4,
+                description: "Invest in EV manufacturers or charging infrastructure"
+            },
+            {
+                type: "Green Bonds",
+                companyName: "World Bank Green Bond",
+                expectedROI: 4.1,
+                riskLevel: 1,
+                description: "Fixed-income instruments funding environmental projects"
+            },
+            {
+                type: "Sustainable Agriculture",
+                companyName: "AppHarvest",
+                expectedROI: 9.8,
+                riskLevel: 3,
+                description: "Invest in organic farming or vertical farming tech"
+            },
+            {
+                type: "Water Technology",
+                companyName: "Xylem Inc.",
+                expectedROI: 6.7,
+                riskLevel: 2,
+                description: "Invest in water purification or conservation technologies"
+            },
+            {
+                type: "Recycling Tech",
+                companyName: "Waste Management Inc.",
+                expectedROI: 5.9,
+                riskLevel: 2,
+                description: "Invest in waste management and recycling innovations"
+            }
+        ];
+        
+        // DOM elements
+        const investmentOptionsEl = document.getElementById('investmentOptions');
+        const calculatorContainerEl = document.getElementById('calculatorContainer');
+        const investmentTitleEl = document.getElementById('investmentTitle');
+        const investmentDescriptionEl = document.getElementById('investmentDescription');
+        const calculateBtn = document.getElementById('calculateBtn');
+        const resultsEl = document.getElementById('results');
+        const yearsSpanEl = document.getElementById('yearsSpan');
+        const futureValueEl = document.getElementById('futureValue');
+        const potentialProfitEl = document.getElementById('potentialProfit');
+        const annualReturnEl = document.getElementById('annualReturn');
+        
+        // Current selected investment
+        let selectedInvestment = null;
+        
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            renderInvestmentOptions();
+            
+            // Setup calculate button
+            calculateBtn.addEventListener('click', calculateProjection);
+        });
+        
+        // Render investment options
+        function renderInvestmentOptions() {
+            investmentOptionsEl.innerHTML = '';
+            
+            greenInvestments.forEach((investment, index) => {
+                const card = document.createElement('div');
+                card.className = 'investment-card';
+                card.dataset.index = index;
+                
+                card.innerHTML = `
+                    <div class="card-header">${investment.type}</div>
+                    <div class="card-body">
+                        <h3>${investment.companyName}</h3>
+                        <div style="margin: 0.5rem 0;">
+                            <span class="roi-badge">ROI: ${investment.expectedROI}%</span>
+                            <span class="risk-badge">Risk: ${investment.riskLevel}/5</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">${investment.description}</div>
+                `;
+                
+                card.addEventListener('click', () => selectInvestment(index));
+                investmentOptionsEl.appendChild(card);
+            });
+        }
+        
+        // Select an investment
+        function selectInvestment(index) {
+            selectedInvestment = greenInvestments[index];
+            
+            // Update calculator UI
+            investmentTitleEl.textContent = `${selectedInvestment.companyName} Investment Calculator`;
+            investmentDescriptionEl.textContent = selectedInvestment.description;
+            
+            // Show calculator
+            calculatorContainerEl.classList.add('active');
+            resultsEl.classList.remove('active');
+            
+            // Scroll to calculator
+            calculatorContainerEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            
+            // Reset form
+            document.getElementById('investmentAmount').value = '';
+            document.getElementById('investmentYears').value = '';
+        }
+        
+        // Calculate investment projection
+        function calculateProjection() {
+            if (!selectedInvestment) {
+                alert('Please select an investment first');
+                return;
+            }
+            
+            const amount = parseFloat(document.getElementById('investmentAmount').value);
+            const years = parseInt(document.getElementById('investmentYears').value);
+            
+            if (isNaN(amount) {
+                alert('Please enter a valid investment amount');
+                return;
+            }
+            
+            if (isNaN(years) {
+                alert('Please enter a valid investment duration');
+                return;
+            }
+            
+            if (amount <= 0) {
+                alert('Investment amount must be greater than 0');
+                return;
+            }
+            
+            if (years < 1) {
+                alert('Investment duration must be at least 1 year');
+                return;
+            }
+            
+            // Calculate future value
+            const futureValue = amount * Math.pow(1 + selectedInvestment.expectedROI/100, years);
+            
+            // Update results
+            yearsSpanEl.textContent = years;
+            futureValueEl.textContent = '$' + futureValue.toFixed(2);
+            potentialProfitEl.textContent = '$' + (futureValue - amount).toFixed(2);
+            annualReturnEl.textContent = selectedInvestment.expectedROI.toFixed(2) + '%';
+            
+            // Show results
+            resultsEl.classList.add('active');
+        }
+    </script>
+</body>
+</html>
