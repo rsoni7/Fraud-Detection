@@ -1,17 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-green-investment',
-  templateUrl: './green-portfolio.component.html',
+  templateUrl: './green-investment.component.html',
+  styleUrls: ['./green-investment.component.css']
 })
 export class GreenInvestmentComponent implements OnInit {
-
-
-  ngOnInit(): void {
-  }
-
-
   greenInvestments = [
     {
       type: 'Solar Energy Companies',
@@ -71,6 +65,10 @@ export class GreenInvestmentComponent implements OnInit {
   potentialProfit: number = 0;
   resultsVisible = false;
 
+  constructor() {}
+
+  ngOnInit(): void {}
+
   selectInvestment(index: number): void {
     this.selectedInvestment = this.greenInvestments[index];
     this.investmentAmount = 0;
@@ -91,4 +89,4 @@ export class GreenInvestmentComponent implements OnInit {
     this.potentialProfit = this.futureValue - this.investmentAmount;
     this.resultsVisible = true;
   }
-} 
+}
