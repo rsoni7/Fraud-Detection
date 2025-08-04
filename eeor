@@ -1,227 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Green Investment Calculator</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 1rem;
-      background: #f5f5f5;
-    }
-    .investment-options {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-    .investment-card {
-      background: white;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      padding: 1rem;
-      width: 300px;
-      cursor: pointer;
-      transition: box-shadow 0.2s;
-    }
-    .investment-card:hover {
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    .roi-badge,
-    .risk-badge {
-      display: inline-block;
-      background: #dff0d8;
-      padding: 0.3rem 0.6rem;
-      margin-right: 0.5rem;
-      border-radius: 4px;
-      font-size: 0.9rem;
-    }
-    .calculator-container {
-      margin-top: 2rem;
-      padding: 1rem;
-      background: white;
-      border-radius: 8px;
-      display: none;
-    }
-    .calculator-container.active {
-      display: block;
-    }
-    .form-group {
-      margin: 1rem 0;
-    }
-    .form-group input {
-      width: 100%;
-      padding: 0.5rem;
-      font-size: 1rem;
-    }
-    .results {
-      margin-top: 1rem;
-      display: none;
-    }
-    .results.active {
-      display: block;
-    }
-    .result-value {
-      font-weight: bold;
-      color: #006400;
-    }
-  </style>
-</head>
-<body>
-
-  <h1>Green Investment Options</h1>
-  <div class="investment-options" id="investmentOptions"></div>
-
-  <div class="calculator-container" id="calculatorContainer">
-    <h2 id="investmentTitle">Investment Calculator</h2>
-    <p id="investmentDescription"></p>
-
-    <div class="form-group">
-      <label for="investmentAmount">Initial Investment Amount ($)</label>
-      <input type="number" id="investmentAmount" placeholder="Enter amount">
-    </div>
-
-    <div class="form-group">
-      <label for="investmentYears">Investment Duration (years)</label>
-      <input type="number" id="investmentYears" placeholder="Enter years">
-    </div>
-
-    <button id="calculateBtn">Calculate Projection</button>
-
-    <div class="results" id="results">
-      <h3>Projection Results</h3>
-      <div class="result-item">
-        Projected value after <span id="yearsSpan" class="result-value">0</span> years:
-        <span id="futureValue" class="result-value">$0.00</span>
-      </div>
-      <div class="result-item">
-        Potential profit: <span id="potentialProfit" class="result-value">$0.00</span>
-      </div>
-      <div class="result-item">
-        Annualized return: <span id="annualReturn" class="result-value">0%</span>
+<!-- green-investment.component.html -->
+<div class="investment-options">
+  <div 
+    class="investment-card" 
+    *ngFor="let investment of greenInvestments; let i = index"
+    (click)="selectInvestment(i)">
+    
+    <div class="card-header">{{ investment.type }}</div>
+    <div class="card-body">
+      <h3>{{ investment.companyName }}</h3>
+      <div style="margin: 0.5rem 0;">
+        <span class="roi-badge">ROI: {{ investment.expectedROI }}%</span>
+        <span class="risk-badge">Risk: {{ investment.riskLevel }}/5</span>
       </div>
     </div>
+    <div class="card-footer">{{ investment.description }}</div>
+  </div>
+</div>
+
+<div class="calculator-container" *ngIf="selectedInvestment">
+  <h2>{{ selectedInvestment.companyName }} Investment Calculator</h2>
+  <p>{{ selectedInvestment.description }}</p>
+
+  <div class="form-group">
+    <label for="investmentAmount">Initial Investment Amount ($)</label>
+    <input type="number" [(ngModel)]="investmentAmount" placeholder="Enter amount">
   </div>
 
-  <script>
-    const greenInvestments = [
-      {
-        type: "Solar Energy Companies",
-        companyName: "SunPower Corporation",
-        expectedROI: 8.5,
-        riskLevel: 3,
-        description: "Invest in photovoltaic cell manufacturers or solar farm operators"
-      },
-      {
-        type: "Wind Power",
-        companyName: "Vestas Wind Systems",
-        expectedROI: 7.2,
-        riskLevel: 2,
-        description: "Invest in wind turbine manufacturers or wind farm projects"
-      },
-      {
-        type: "Electric Vehicles",
-        companyName: "Tesla",
-        expectedROI: 12.5,
-        riskLevel: 4,
-        description: "Invest in EV manufacturers or charging infrastructure"
-      },
-      {
-        type: "Green Bonds",
-        companyName: "World Bank Green Bond",
-        expectedROI: 4.1,
-        riskLevel: 1,
-        description: "Fixed-income instruments funding environmental projects"
-      },
-      {
-        type: "Sustainable Agriculture",
-        companyName: "AppHarvest",
-        expectedROI: 9.8,
-        riskLevel: 3,
-        description: "Invest in organic farming or vertical farming tech"
-      },
-      {
-        type: "Water Technology",
-        companyName: "Xylem Inc.",
-        expectedROI: 6.7,
-        riskLevel: 2,
-        description: "Invest in water purification or conservation technologies"
-      },
-      {
-        type: "Recycling Tech",
-        companyName: "Waste Management Inc.",
-        expectedROI: 5.9,
-        riskLevel: 2,
-        description: "Invest in waste management and recycling innovations"
-      }
-    ];
+  <div class="form-group">
+    <label for="investmentYears">Investment Duration (years)</label>
+    <input type="number" [(ngModel)]="investmentYears" placeholder="Enter years">
+  </div>
 
-    let selectedInvestment = null;
+  <button (click)="calculate()">Calculate Projection</button>
 
-    const investmentOptionsEl = document.getElementById('investmentOptions');
-    const calculatorContainerEl = document.getElementById('calculatorContainer');
-    const investmentTitleEl = document.getElementById('investmentTitle');
-    const investmentDescriptionEl = document.getElementById('investmentDescription');
-    const calculateBtn = document.getElementById('calculateBtn');
-    const resultsEl = document.getElementById('results');
-    const yearsSpanEl = document.getElementById('yearsSpan');
-    const futureValueEl = document.getElementById('futureValue');
-    const potentialProfitEl = document.getElementById('potentialProfit');
-    const annualReturnEl = document.getElementById('annualReturn');
-
-    function renderInvestmentOptions() {
-      investmentOptionsEl.innerHTML = '';
-      greenInvestments.forEach((investment, index) => {
-        const card = document.createElement('div');
-        card.className = 'investment-card';
-        card.dataset.index = index;
-        card.innerHTML = `
-          <div class="card-header"><strong>${investment.type}</strong></div>
-          <div class="card-body">
-            <h3>${investment.companyName}</h3>
-            <div style="margin: 0.5rem 0;">
-              <span class="roi-badge">ROI: ${investment.expectedROI}%</span>
-              <span class="risk-badge">Risk: ${investment.riskLevel}/5</span>
-            </div>
-          </div>
-          <div class="card-footer">${investment.description}</div>
-        `;
-        card.addEventListener('click', () => selectInvestment(index));
-        investmentOptionsEl.appendChild(card);
-      });
-    }
-
-    function selectInvestment(index) {
-      selectedInvestment = greenInvestments[index];
-      investmentTitleEl.textContent = `${selectedInvestment.companyName} Investment Calculator`;
-      investmentDescriptionEl.textContent = selectedInvestment.description;
-      calculatorContainerEl.classList.add('active');
-      resultsEl.classList.remove('active');
-      calculatorContainerEl.scrollIntoView({ behavior: 'smooth' });
-    }
-
-    function calculateGreenInvestmentGrowth(principal, annualRate, years) {
-      return principal * Math.pow(1 + annualRate / 100, years);
-    }
-
-    calculateBtn.addEventListener('click', () => {
-      if (!selectedInvestment) return;
-      const amount = parseFloat(document.getElementById('investmentAmount').value);
-      const years = parseInt(document.getElementById('investmentYears').value);
-      if (isNaN(amount) || isNaN(years) || amount <= 0 || years <= 0) {
-        alert('Please enter valid investment amount and duration');
-        return;
-      }
-      const futureValue = calculateGreenInvestmentGrowth(amount, selectedInvestment.expectedROI, years);
-      yearsSpanEl.textContent = years;
-      futureValueEl.textContent = `$${futureValue.toFixed(2)}`;
-      potentialProfitEl.textContent = `$${(futureValue - amount).toFixed(2)}`;
-      annualReturnEl.textContent = `${selectedInvestment.expectedROI.toFixed(2)}%`;
-      resultsEl.classList.add('active');
-    });
-
-    renderInvestmentOptions();
-  </script>
-
-</body>
-</html>
+  <div class="results" *ngIf="resultsVisible">
+    <h3>Projection Results</h3>
+    <div class="result-item">
+      Projected value after <span class="result-value">{{ investmentYears }}</span> years:
+      <span class="result-value">${{ futureValue?.toFixed(2) }}</span>
+    </div>
+    <div class="result-item">
+      Potential profit: <span class="result-value">${{ potentialProfit?.toFixed(2) }}</span>
+    </div>
+    <div class="result-item">
+      Annualized return: <span class="result-value">{{ selectedInvestment.expectedROI.toFixed(2) }}%</span>
+    </div>
+  </div>
+</div>
