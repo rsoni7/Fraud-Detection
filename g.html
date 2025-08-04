@@ -1,63 +1,85 @@
-<div class="green-investment-container">
-  <header>
-    <div class="container">
+<div class="green-investment">
+  <app-header 
+    [title]="'Green Investments'" 
+    [showBackButton]="true"
+    [showTransactionsButton]="true"
+    [showGreenInvestmentButton]="false">
+  </app-header>
+
+  <main class="investment-content">
+    <section class="hero">
       <h1>🌱 Green Investment Portfolio</h1>
       <p class="subtitle">Invest in a sustainable future</p>
-    </div>
-  </header>
-  
-  <div class="container">
+    </section>
+
     <section class="portfolio-intro">
       <h2>Discover Eco-Friendly Investment Opportunities</h2>
       <p>Browse our selection of carefully curated green investments that combine financial returns with positive environmental impact.</p>
     </section>
     
-    <h2>Available Green Investment Options</h2>
-    <div class="investment-options">
-      <div *ngFor="let investment of investments; let i = index" 
-           class="investment-card" 
-           (click)="selectInvestment(i)">
-        <div class="card-header">{{investment.type}}</div>
-        <div class="card-body">
-          <h3>{{investment.companyName}}</h3>
-          <div style="margin: 0.5rem 0;">
-            <span class="roi-badge">ROI: {{investment.expectedROI}}%</span>
-            <span class="risk-badge">Risk: {{investment.riskLevel}}/5</span>
+    <section class="investment-section">
+      <h2>Available Green Investment Options</h2>
+      <div class="investment-grid">
+        <div *ngFor="let investment of investments; let i = index" 
+             class="investment-card" 
+             (click)="selectInvestment(i)"
+             [class.selected]="selectedInvestment === investment">
+          <div class="card-header">
+            <h3>{{investment.type}}</h3>
+          </div>
+          <div class="card-body">
+            <h4>{{investment.companyName}}</h4>
+            <div class="investment-meta">
+              <span class="roi-badge">ROI: {{investment.expectedROI}}%</span>
+              <span class="risk-badge">Risk: {{investment.riskLevel}}/5</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <p>{{investment.description}}</p>
           </div>
         </div>
-        <div class="card-footer">{{investment.description}}</div>
       </div>
-    </div>
-    
-    <div class="calculator-container" [class.active]="selectedInvestment">
-      <h2>{{selectedInvestment?.companyName}} Investment Calculator</h2>
-      <p>{{selectedInvestment?.description}}</p>
-      
-      <div class="form-group">
-        <label for="investmentAmount">Initial Investment Amount ($)</label>
-        <input type="number" id="investmentAmount" [(ngModel)]="amount" placeholder="Enter amount">
-      </div>
-      
-      <div class="form-group">
-        <label for="investmentYears">Investment Duration (years)</label>
-        <input type="number" id="investmentYears" [(ngModel)]="years" placeholder="Enter years">
-      </div>
-      
-      <button (click)="calculate()">Calculate Projection</button>
-      
-      <div class="results" *ngIf="showResults">
-        <h3>Projection Results</h3>
-        <div class="result-item">
-          Projected value after <span class="result-value">{{years}}</span> years: 
-          <span class="result-value">${{futureValue | number:'1.2-2'}}</span>
+    </section>
+
+    <section class="calculator-section" *ngIf="selectedInvestment">
+      <div class="calculator-container">
+        <h2>{{selectedInvestment.companyName}} Investment Calculator</h2>
+        <p>{{selectedInvestment.description}}</p>
+        
+        <form class="calculator-form" (ngSubmit)="calculate()">
+          <div class="form-group">
+            <label for="investmentAmount">Initial Investment Amount ($)</label>
+            <input type="number" id="investmentAmount" 
+                   [(ngModel)]="amount" name="amount" 
+                   placeholder="Enter amount" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="investmentYears">Investment Duration (years)</label>
+            <input type="number" id="investmentYears" 
+                   [(ngModel)]="years" name="years" 
+                   placeholder="Enter years" required>
+          </div>
+          
+          <button type="submit" class="calculate-btn">Calculate Projection</button>
+        </form>
+        
+        <div class="results" *ngIf="showResults">
+          <h3>Projection Results</h3>
+          <div class="result-item">
+            <span class="result-label">Projected value after {{years}} years:</span>
+            <span class="result-value">${{futureValue | number:'1.2-2'}}</span>
+          </div>
+          <div class="result-item">
+            <span class="result-label">Potential profit:</span>
+            <span class="result-value">${{(futureValue - amount) | number:'1.2-2'}}</span>
+          </div>
+          <div class="result-item">
+            <span class="result-label">Annualized return:</span>
+            <span class="result-value">{{selectedInvestment.expectedROI | number:'1.2-2'}}%</span>
+          </div>
         </div>
-        <div class="result-item">
-          Potential profit: <span class="result-value">${{(futureValue - amount) | number:'1.2-2'}}</span>
-        </div>
-        <div class="result-item">
-          Annualized return: <span class="result-value">{{selectedInvestment?.expectedROI | number:'1.2-2'}}%</span>
-        </div>
       </div>
-    </div>
-  </div>
+    </section>
+  </main>
 </div>
