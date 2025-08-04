@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms'; // Make sure to import FormsModule
 
 @Component({
   selector: 'app-green-investment',
@@ -7,7 +6,6 @@ import { FormsModule } from '@angular/forms'; // Make sure to import FormsModule
   styleUrls: ['./green-investment.component.scss']
 })
 export class GreenInvestmentComponent {
-  // Investment data
   investments = [
     {
       type: "Solar Energy Companies",
@@ -16,29 +14,61 @@ export class GreenInvestmentComponent {
       riskLevel: 3,
       description: "Invest in photovoltaic cell manufacturers or solar farm operators"
     },
-    // ... rest of your investment data ...
+    {
+      type: "Wind Power",
+      companyName: "Vestas Wind Systems",
+      expectedROI: 7.2,
+      riskLevel: 2,
+      description: "Invest in wind turbine manufacturers or wind farm projects"
+    },
+    {
+      type: "Electric Vehicles",
+      companyName: "Tesla",
+      expectedROI: 12.5,
+      riskLevel: 4,
+      description: "Invest in EV manufacturers or charging infrastructure"
+    },
+    {
+      type: "Green Bonds",
+      companyName: "World Bank Green Bond",
+      expectedROI: 4.1,
+      riskLevel: 1,
+      description: "Fixed-income instruments funding environmental projects"
+    },
+    {
+      type: "Sustainable Agriculture",
+      companyName: "AppHarvest",
+      expectedROI: 9.8,
+      riskLevel: 3,
+      description: "Invest in organic farming or vertical farming tech"
+    },
+    {
+      type: "Water Technology",
+      companyName: "Xylem Inc.",
+      expectedROI: 6.7,
+      riskLevel: 2,
+      description: "Invest in water purification or conservation technologies"
+    },
+    {
+      type: "Recycling Tech",
+      companyName: "Waste Management Inc.",
+      expectedROI: 5.9,
+      riskLevel: 2,
+      description: "Invest in waste management and recycling innovations"
+    }
   ];
 
-  // Form variables
   amount: number = 0;
   years: number = 0;
   futureValue: number = 0;
-  
-  // UI state
   selectedInvestment: any = null;
   showResults: boolean = false;
 
-  // Select an investment
   selectInvestment(index: number): void {
     this.selectedInvestment = this.investments[index];
     this.showResults = false;
-    // Reset form values when selecting new investment
-    this.amount = 0;
-    this.years = 0;
-    this.futureValue = 0;
   }
 
-  // Calculate investment growth
   calculate(): void {
     if (!this.selectedInvestment) {
       alert('Please select an investment first');
@@ -50,18 +80,7 @@ export class GreenInvestmentComponent {
       return;
     }
 
-    // Calculate future value
-    this.futureValue = this.calculateFutureValue(
-      this.amount, 
-      this.selectedInvestment.expectedROI, 
-      this.years
-    );
-    
+    this.futureValue = this.amount * Math.pow(1 + this.selectedInvestment.expectedROI / 100, this.years);
     this.showResults = true;
-  }
-
-  // Calculation helper function
-  private calculateFutureValue(principal: number, annualRate: number, years: number): number {
-    return principal * Math.pow(1 + annualRate / 100, years);
   }
 }
