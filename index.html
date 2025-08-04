@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Green Investment Portfolio</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🌱 Green Investment Portfolio</h1>
+            <p class="subtitle">Invest in a sustainable future</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <section class="portfolio-intro">
+            <h2>Discover Eco-Friendly Investment Opportunities</h2>
+            <p>Browse our selection of carefully curated green investments that combine financial returns with positive environmental impact.</p>
+        </section>
+        
+        <h2>Available Green Investment Options</h2>
+        <div class="investment-options" id="investmentOptions"></div>
+        
+        <div class="calculator-container" id="calculatorContainer">
+            <h2 id="investmentTitle">Investment Calculator</h2>
+            <p id="investmentDescription"></p>
+            
+            <div class="form-group">
+                <label for="investmentAmount">Initial Investment Amount ($)</label>
+                <input type="number" id="investmentAmount" placeholder="Enter amount">
+            </div>
+            
+            <div class="form-group">
+                <label for="investmentYears">Investment Duration (years)</label>
+                <input type="number" id="investmentYears" placeholder="Enter years">
+            </div>
+            
+            <button id="calculateBtn">Calculate Projection</button>
+            
+            <div class="results" id="results">
+                <h3>Projection Results</h3>
+                <div class="result-item">
+                    Projected value after <span id="yearsSpan" class="result-value">0</span> years: 
+                    <span id="futureValue" class="result-value">$0.00</span>
+                </div>
+                <div class="result-item">
+                    Potential profit: <span id="potentialProfit" class="result-value">$0.00</span>
+                </div>
+                <div class="result-item">
+                    Annualized return: <span id="annualReturn" class="result-value">0%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/script.js"></script>
+</body>
+</html>
