@@ -1,15 +1,11 @@
-Compiled with problems:
-×
-ERROR
-Module not found: Error: Can't resolve 'C:/Users/951531/Downloads/vibe-banking-lab-master/vibe-banking-lab-master/src/app/components/green-investment/green-investment.component.css?ngResource' in 'C:\Users\951531\Downloads\vibe-banking-lab-master\vibe-banking-lab-master'
 ERROR
 src/app/components/green-investment/green-investment.component.html:45:11 - error NG8002: Can't bind to 'ngModel' since it isn't a known property of 'input'.
 
 45           [(ngModel)]="investmentAmount"
              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  src/app/components/green-investment/green-investment.component.ts:5:16
-    5   templateUrl: './green-investment.component.html',
+  src/app/components/green-investment/green-investment.component.ts:6:16
+    6   templateUrl: './green-investment.component.html',
                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Error occurs in the template of component GreenInvestmentComponent.
 ERROR
@@ -20,8 +16,8 @@ src/app/components/green-investment/green-investment.component.html:45:24 - erro
 46           placeholder="Enter amount"
    ~~~~~~
 
-  src/app/components/green-investment/green-investment.component.ts:5:16
-    5   templateUrl: './green-investment.component.html',
+  src/app/components/green-investment/green-investment.component.ts:6:16
+    6   templateUrl: './green-investment.component.html',
                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Error occurs in the template of component GreenInvestmentComponent.
 ERROR
@@ -30,8 +26,8 @@ src/app/components/green-investment/green-investment.component.html:56:11 - erro
 56           [(ngModel)]="investmentYears"
              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  src/app/components/green-investment/green-investment.component.ts:5:16
-    5   templateUrl: './green-investment.component.html',
+  src/app/components/green-investment/green-investment.component.ts:6:16
+    6   templateUrl: './green-investment.component.html',
                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Error occurs in the template of component GreenInvestmentComponent.
 ERROR
@@ -42,8 +38,8 @@ src/app/components/green-investment/green-investment.component.html:56:24 - erro
 57           placeholder="Enter years"
    ~~~~~~
 
-  src/app/components/green-investment/green-investment.component.ts:5:16
-    5   templateUrl: './green-investment.component.html',
+  src/app/components/green-investment/green-investment.component.ts:6:16
+    6   templateUrl: './green-investment.component.html',
                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Error occurs in the template of component GreenInvestmentComponent.
 ERROR
@@ -52,8 +48,8 @@ src/app/components/green-investment/green-investment.component.html:68:55 - erro
 68           <span class="result-value">{{ futureValue | currency }}</span>
                                                          ~~~~~~~~
 
-  src/app/components/green-investment/green-investment.component.ts:5:16
-    5   templateUrl: './green-investment.component.html',
+  src/app/components/green-investment/green-investment.component.ts:6:16
+    6   templateUrl: './green-investment.component.html',
                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Error occurs in the template of component GreenInvestmentComponent.
 ERROR
@@ -62,9 +58,7 @@ src/app/components/green-investment/green-investment.component.html:72:59 - erro
 72           <span class="result-value">{{ potentialProfit | currency }}</span>
                                                              ~~~~~~~~
 
-  src/app/components/green-investment/green-investment.component.ts:5:16
-    5   templateUrl: './green-investment.component.html',
+  src/app/components/green-investment/green-investment.component.ts:6:16
+    6   templateUrl: './green-investment.component.html',
                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Error occurs in the template of component GreenInvestmentComponent.
-ERROR
-The loader "C:/Users/951531/Downloads/vibe-banking-lab-master/vibe-banking-lab-master/src/app/components/green-investment/green-investment.component.css" didn't return a string.
