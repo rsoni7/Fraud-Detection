@@ -1,0 +1,70 @@
+ERROR
+src/app/components/green-investment/green-investment.component.html:38:52 - error NG8002: Can't bind to 'ngModel' since it isn't a known property of 'input'.
+
+38         <input type="number" id="investmentAmount" [(ngModel)]="amount" placeholder="Enter amount">
+                                                      ~~~~~~~~~~~~~~~~~~~~
+
+  src/app/components/green-investment/green-investment.component.ts:6:16
+    6   templateUrl: './green-investment.component.html',
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component GreenInvestmentComponent.
+ERROR
+src/app/components/green-investment/green-investment.component.html:38:65 - error TS2322: Type 'Event' is not assignable to type 'number'.
+
+38         <input type="number" id="investmentAmount" [(ngModel)]="amount" placeholder="Enter amount">
+                                                                   ~~~~~~~~~~~~~~
+
+  src/app/components/green-investment/green-investment.component.ts:6:16
+    6   templateUrl: './green-investment.component.html',
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component GreenInvestmentComponent.
+ERROR
+src/app/components/green-investment/green-investment.component.html:43:51 - error NG8002: Can't bind to 'ngModel' since it isn't a known property of 'input'.
+
+43         <input type="number" id="investmentYears" [(ngModel)]="years" placeholder="Enter years">
+                                                     ~~~~~~~~~~~~~~~~~~~
+
+  src/app/components/green-investment/green-investment.component.ts:6:16
+    6   templateUrl: './green-investment.component.html',
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component GreenInvestmentComponent.
+ERROR
+src/app/components/green-investment/green-investment.component.html:43:64 - error TS2322: Type 'Event' is not assignable to type 'number'.
+
+43         <input type="number" id="investmentYears" [(ngModel)]="years" placeholder="Enter years">
+                                                                  ~~~~~~~~~~~~~
+
+  src/app/components/green-investment/green-investment.component.ts:6:16
+    6   templateUrl: './green-investment.component.html',
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component GreenInvestmentComponent.
+ERROR
+src/app/components/green-investment/green-investment.component.html:52:55 - error NG8004: No pipe found with name 'number'.
+
+52           <span class="result-value">${{futureValue | number:'1.2-2'}}</span>
+                                                         ~~~~~~
+
+  src/app/components/green-investment/green-investment.component.ts:6:16
+    6   templateUrl: './green-investment.component.html',
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component GreenInvestmentComponent.
+ERROR
+src/app/components/green-investment/green-investment.component.html:55:84 - error NG8004: No pipe found with name 'number'.
+
+55           Potential profit: <span class="result-value">${{(futureValue - amount) | number:'1.2-2'}}</span>
+                                                                                      ~~~~~~
+
+  src/app/components/green-investment/green-investment.component.ts:6:16
+    6   templateUrl: './green-investment.component.html',
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component GreenInvestmentComponent.
+ERROR
+src/app/components/green-investment/green-investment.component.html:58:93 - error NG8004: No pipe found with name 'number'.
+
+58           Annualized return: <span class="result-value">{{selectedInvestment?.expectedROI | number:'1.2-2'}}%</span>
+                                                                                               ~~~~~~
+
+  src/app/components/green-investment/green-investment.component.ts:6:16
+    6   templateUrl: './green-investment.component.html',
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component GreenInvestmentComponent.
